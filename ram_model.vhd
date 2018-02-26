@@ -20,9 +20,9 @@ begin
 		variable ramdata:ram_type;
 	begin
 		if clk'event and clk = '1' then 
-		  ramdata(conv_integer(sel)) := data;
+		  ramdata(conv_integer(sel)) := input_data after 10 s;
 		end if;
-		temp_data <= ramdata(conv_integer(sel))	after 1 ns;
+		temp_data <= ramdata(conv_integer(sel))	after 1 s;
 	end process;
 	
 	process(en,temp_data)
