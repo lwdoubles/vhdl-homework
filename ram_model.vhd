@@ -18,16 +18,14 @@ architecture rtl of ram_model is
 	type ram_type is array(0 to 7) of bit16;
 	signal temp_data:bit16;
 begin
-	process(clk,sel)
+	process(input_data)
 		variable ramdata:ram_type;
 	begin
-		if clk'event and clk = '1' then 
-		  ramdata(conv_integer(sel)) := input_data;
-		end if;
+		ramdata(conv_integer(sel)) := input_data;	
 		temp_data <= ramdata(conv_integer(sel)) after 1 ns;
 	end process;
 	
-	process(temp_data1,temp_data2,reg_rd)
+	process(temp_data)
 	begin
 		if en = '1' then
 			qout <= temp_data after 1 ns;
