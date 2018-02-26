@@ -9,13 +9,13 @@ package cpu_lib is
   type RwType is (R, W);
   type LenType is (Lword, Lhalf, Lbyte);
   
-  subtype alu_type is unsigned(4 downto 0);
-  constant ALU_NOP : unsigned(4 downto 0) := "00000";
-  constant ALU_AND : unsigned(4 downto 0) := "01001";
-  constant ALU_OR : unsigned(4 downto 0) := "01010";
-  constant ALU_XOR : unsigned(4 downto 0) := "01011";
-  constant ALU_ADD : unsigned(4 downto 0) := "01101";
-  constant ALU_SUB : unsigned(4 downto 0) := "01110";
+  subtype alu_type is unsigned(3 downto 0);
+  constant ALU_NOP : unsigned(3 downto 0) := "0000";
+  constant ALU_AND : unsigned(3 downto 0) := "0001";
+  constant ALU_OR : unsigned(3 downto 0) := "0010";
+  constant ALU_XOR : unsigned(3 downto 0) := "0100";
+  constant ALU_ADD : unsigned(3 downto 0) := "0101";
+  constant ALU_SUB : unsigned(3 downto 0) := "0110";
   --constant ALU_MUL : unsigned(4 downto 0) := "00000";
   --constant ALU_MULU : unsigned(4 downto 0) := "00000";
   --right move
