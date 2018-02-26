@@ -24,16 +24,16 @@ begin
 	begin
 		if reg_rd = '1' then 
 		  ramdata(conv_integer(sel(5 downto 3))) := input_data after 10 s;
-
+		  reg_rd <= '0';
 		end if;
 		temp_data1 <= ramdata(conv_integer(sel(5 downto 3))	after 1 s;
 	end process;
 	
-	process(reg_wr,temp_data)
+	process(temp_data1)
 	begin
 		if reg_wr = '1' then
 			qout1 <= temp_data after 1 ns;
-			
+			reg_wr <= '0';
 	end process;
 	
 end rtl;
