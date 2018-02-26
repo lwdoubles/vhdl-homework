@@ -6,9 +6,12 @@ USE WORK.cpu_lib.ALL;
 entity ram_model is
 	port(	input_data:in bit16;
 			sel:in reg_type;
+	     		reg_wr:in std_logic;
+	     		reg_rd:in std_logic;
 			en:in std_logic;
 			clk:in std_logic;
-			qout:out bit16);
+			qout1: inout bit16
+	    		qout2: inout bit16);
 			
 end ram_model;
 
@@ -19,19 +22,18 @@ begin
 	process(clk,sel)
 		variable ramdata:ram_type;
 	begin
-		if clk'event and clk = '1' then 
-		  ramdata(conv_integer(sel)) := input_data after 10 s;
+		if reg_rd = '1' then 
+		  ramdata(conv_integer(sel(5 downto 3))) := input_data after 10 s;
+
 		end if;
-		temp_data <= ramdata(conv_integer(sel))	after 1 s;
+		temp_data1 <= ramdata(conv_integer(sel(5 downto 3))	after 1 s;
 	end process;
 	
-	process(en,temp_data)
+	process(reg_wr,temp_data)
 	begin
-		if en = '1' then
-			q <= temp_data after 1 ns;
-		else
-			q <= "ZZZZZZZZZZZZZZZZ" after 1 ns;
-		end if;
+		if reg_wr = '1' then
+			qout1 <= temp_data after 1 ns;
+			
 	end process;
 	
 end rtl;
