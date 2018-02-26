@@ -10,8 +10,8 @@ entity ram_model is
 	     		reg_rd:in std_logic;
 			en:in std_logic;
 			clk:in std_logic;
-			qout1: inout bit16
-	    		qout2: inout bit16);
+			qout1: out bit16
+	    		qout2: out bit16);
 			
 end ram_model;
 
