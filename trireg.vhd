@@ -8,7 +8,7 @@ entity trireg is
 	  clk : in std_logic;
 	  q : out bit16);
 	  
-end tirreg;
+end trireg;
 
 architecture rtl of trireg is
  signal val : bit16;
