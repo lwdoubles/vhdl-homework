@@ -16,10 +16,10 @@ port(clock:in std_logic;
 	 addrRegRd:out std_logic;
 	 outRegWr:out std_logic;
 	 outRegRd:out std_logic;
-	 shiftSel:out shift_type;
+	 --shiftSel:out shift_type;
 	 aluSel:out alu_type;
 	 compSel:out comp_type;
-	 opRedRd:out std_logic;
+	 opRegRd:out std_logic;
 	 opRegWr:out std_logic;
 	 instrWr:out std_logic;
 	 regSel:out reg_type;
@@ -31,20 +31,20 @@ port(clock:in std_logic;
 	 
 end control;
 
-architecture rtl of controller is
+architecture rtl of control is
 	 signal current_state, next_state:state;
 begin
 	 nxtstateproc:process(current_state, instrReg, compout, ready)
 	 begin
 	 
-	 progCntrWr <= '0';
-	 progCntrRd <= '0';
+	 --progCntrWr <= '0';
+	 --progCntrRd <= '0';
 	 addrRegWr <= '0';
 	 outRegWr <= '0';
 	 outRegRd <= '0';
-	 shiftSel <= shiftpass;
-	 aluSel <= alupass;
-	 compSel <= eq;
+	 --shiftSel <= shiftpass;
+	 --aluSel <= alupass;
+	 --compSel <= eq;
 	 opRegRd <= '0';
 	 opRegWr <= '0';
 	 instrWr <= '0';

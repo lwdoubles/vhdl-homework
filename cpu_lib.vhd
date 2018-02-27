@@ -5,9 +5,12 @@ use ieee.numeric_std.all;
 --package we define 
 package cpu_lib is
   subtype bit16 is std_logic_vector(15 downto 0);
+  subtype reg_type is std_logic_vector(2 downto 0);
   
   type RwType is (R, W);
   type LenType is (Lword, Lhalf, Lbyte);
+  type comp_type is (eq, neq, gt, gte, lt, lte);
+  type state is (load1, load2, load3, add1, incPc,execute);
   
   subtype alu_type is unsigned(3 downto 0);
   constant ALU_NOP : unsigned(3 downto 0) := "0000";
@@ -29,4 +32,4 @@ package cpu_lib is
   --constant ALU_GTZ : unsigned(4 downto 0) := "00000";
   --constant ALU_LEZ : unsigned(4 downto 0) := "00000";
   --constant ALU_GEZ : unsigned(4 downto 0) := "00000";
-  end cpu_lib;
+end cpu_lib;
