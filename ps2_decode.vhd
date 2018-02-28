@@ -20,7 +20,7 @@ architecture decoding of ps2_decode is
 	signal ps2_byte_r: std_logic_vector (7 downto 0); 
 	signal output_counter: std_logic_vector (2 downto 0);
 	signal break_code_flag: std_logic;
-	signal temp_decode: std_logic_vector (4 downto 0);
+	signal temp_decode: std_logic_vector (3 downto 0);
 	signal temp_ps2k_dec: std_logic_vector(15 downto 0);
 begin 
 ---------------clock deling process  
@@ -151,10 +151,7 @@ begin
 		 output_counter <= "111";
 	  else output_counter <= "000";
 	  end if;
-  end process;
  -------------------output decoded key value
-  process(output_counter)
-	begin
 	  if (output_counter = "111")then
 	    ps2k_dec <= temp_ps2k_dec;
 		 output_counter <= "000";
