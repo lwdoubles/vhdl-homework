@@ -135,11 +135,7 @@ begin
 				output_counter <= output_counter + 1;
 			else null;
 			end if;
-		end if;
-  end process;
 -------------------decoded key value loading
-  process(temp_decode)
-   begin
 	  if (output_counter = "001") then
 	    temp_ps2k_dec(15 downto 12) <= temp_decode;
 	  elsif (output_counter = "010") then
@@ -157,5 +153,6 @@ begin
 		 output_counter <= "000";
 		else ps2k_dec <= x"0000";
 	  end if;
+    end if;
   end process;
 end decoding;
