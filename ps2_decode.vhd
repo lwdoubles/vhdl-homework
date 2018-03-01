@@ -18,7 +18,6 @@ architecture decoding of ps2_decode is
 	signal temp_data: std_logic_vector (7 downto 0);  
 	signal num: std_logic_vector (3 downto 0);  
 	signal ps2_byte_r: std_logic_vector (7 downto 0); 
-	signal output_counter: std_logic_vector (2 downto 0);
 	signal break_code_flag: std_logic;
 	signal temp_decode: std_logic_vector (3 downto 0);
 	signal temp_ps2k_dec: std_logic_vector(15 downto 0);
@@ -85,74 +84,32 @@ begin
 		if (break_code_flag = '1') then
 			break_code_flag <= '0';
 		else 
-			if(ps2_byte_r = x"45") then----0
-				temp_decode <= "0000";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"16") then----1
-				temp_decode <= "0001";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"1e") then----2
-				temp_decode <= "0010";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"26") then----3
-				temp_decode <= "0011";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"25") then----4
-				temp_decode <= "0100";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"2e") then----5
-				temp_decode <= "0101";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"36") then----6
-				temp_decode <= "0110";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"3d") then----7
-				temp_decode <= "0111";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"3e") then----8
-				temp_decode <= "1000";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"46") then----9
-				temp_decode <= "1001";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"1c") then----10(a)
-				temp_decode <= "1010";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"32") then----11(b)
-				temp_decode <= "1011";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"21") then----12(c)
-				temp_decode <= "1100";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"23") then----13(d)
-				temp_decode <= "1101";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"24") then----14(e)
-				temp_decode <= "1110";
-				output_counter <= output_counter + 1;
-			elsif(ps2_byte_r = x"2b") then----15(f)
-				temp_decode <= "1111";
-				output_counter <= output_counter + 1;
-			else null;
-			end if;
+			case ps2_byte_r is
+				when x"45"=>temp_decode <= "0000";--0
+				when x"16"=>temp_decode <= "0001";--1
+				when x"1e"=>temp_decode <= "0010";--2
+				when x"26"=>temp_decode <= "0011";--3
+				when x"25"=>temp_decode <= "0100";--4
+				when x"2e"=>temp_decode <= "0101";--5
+				when x"36"=>temp_decode <= "0110";--6
+				when x"3d"=>temp_decode <= "0111";--7
+				when x"3e"=>temp_decode <= "1000";--8
+				when x"46"=>temp_decode <= "1001";--9
+				when x"1c"=>temp_decode <= "1010";--10(a)
+				when x"32"=>temp_decode <= "1011";--11(b)
+				when x"21"=>temp_decode <= "1100";--12(c)
+				when x"23"=>temp_decode <= "1101";--13(d)
+				when x"24"=>temp_decode <= "1110";--14(e)
+				when x"2b"=>temp_decode <= "1111";--15(f)
+				when others => null;
+			end case;
+  end process;
 -------------------decoded key value loading
-	  if (output_counter = "001") then
-	    temp_ps2k_dec(15 downto 12) <= temp_decode;
-	  elsif (output_counter = "010") then
-	    temp_ps2k_dec(11 downto 8) <= temp_decode;
-	  elsif (output_counter = "011") then
-	    temp_ps2k_dec(7 downto 4) <= temp_decode;
-	  elsif (output_counter = "100") then
-	    temp_ps2k_dec(3 downto 0) <= temp_decode;
-		 output_counter <= "111";
-	  else output_counter <= "000";
-	  end if;
+process(temp_decode)
+	
+
+
  -------------------output decoded key value
-	  if (output_counter = "111")then
-	    ps2k_dec <= temp_ps2k_dec;
-		 output_counter <= "000";
-		else ps2k_dec <= x"0000";
-	  end if;
-    end if;
+
   end process;
 end decoding;
