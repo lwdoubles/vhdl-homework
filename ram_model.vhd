@@ -16,7 +16,7 @@ end ram_model;
 
 architecture rtl of ram_model is
 	type ram_type is array(0 to 3) of bit8;
-	signal temp_data:bit16;
+	signal temp_data:bit8;
 begin
 	process(input_data)
 		variable ramdata:ram_type;
