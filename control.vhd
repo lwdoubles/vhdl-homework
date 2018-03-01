@@ -6,7 +6,7 @@ entity control is
 port(clock:in std_logic;
 	 reset:in std_logic;
 	 --keyboard input
-	 instrReg:in bit16;
+	 instrReg:in bit8;
 	 
 	 
 	 compout:in std_logic;
@@ -60,20 +60,20 @@ begin
 	 vma <= '0';
 	 case current_state is
 		when execute =>
-			case instrReg(15 downto 11) is
+			case instrReg(7 downto 4) is
 				--null op
-				when "00000" =>
+				when "0000" =>
 					next_state <= incPc;
 				--load op
-				when "00001" =>
+				when "0001" =>
 					regWr <= '1';
 					next_state <= load1;
 				
 				--add op	
-				when "00010" =>
+				when "0010" =>
 					next_state <= add1;
 					
-				when "10010" =>
+				when "0011" =>
 					next_state <= sub1;
 				
 				when others =>
@@ -84,14 +84,14 @@ begin
 			regRd <= '0';
 			regWr <= '1';
 			OpRegWr <= '1';
-			regSel <= instrReg(2 downto 0);	
+			regSel <= instrReg(1 downto 0);	
 			next_state <= load2;
 			
 		when load2 =>
 			regRd <= '0';
 			regWr <= '1';
 			OpRegWr <= '1';
-			regSel <= instrReg(2 downto 0);	
+			regSel <= instrReg(1 downto 0);	
 			next_state <= move1;
 							
 		when move1 =>
@@ -128,7 +128,7 @@ begin
 			--outSel <= 							
 			regRd <= '0';
 			regWr <= '1';
-			regSel <= instrReg(2 downto 0);	
+			regSel <= instrReg(1 downto 0);	
 			next_state <= add2;
 			
 		when add2 => 
@@ -136,7 +136,7 @@ begin
 			aluSel <= alu_add;							
 			regRd <= '0';
 			regWr <= '1';
-			regSel <= instrReg(2 downto 0);	
+			regSel <= instrReg(1 downto 0);	
 			next_state <= move3;
 			
 			
@@ -145,7 +145,7 @@ begin
 			aluSel <= alu_add;							
 			regRd <= '0';
 			regWr <= '1';
-			regSel <= instrReg(2 downto 0);	
+			regSel <= instrReg(1 downto 0);	
 			next_state <= sub2;
 			
 		when sub2 => 
@@ -153,7 +153,7 @@ begin
 			aluSel <= alu_add;							
 			regRd <= '0';
 			regWr <= '1';
-			regSel <= instrReg(2 downto 0);	
+			regSel <= instrReg(1 downto 0);	
 			next_state <= move1;
 				
 		when incPc =>
