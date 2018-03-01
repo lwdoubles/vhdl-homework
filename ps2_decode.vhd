@@ -8,7 +8,7 @@ entity ps2_decode is
 		  rst_n: in std_logic;
 		  ps2k_clk: in std_logic;
 		  ps2k_data: in std_logic;
-		  ps2k_dec: out std_logic_vector(15 downto 0)
+		  ps2k_dec: out std_logic_vector(3 downto 0)
 		  );
 end ps2_decode;
 
@@ -20,11 +20,6 @@ architecture decoding of ps2_decode is
 	signal ps2_byte_r: std_logic_vector (7 downto 0); 
 	signal break_code_flag: std_logic;
 	signal temp_decode: std_logic_vector (3 downto 0);
-	signal output_counter: std_logic_vector (1 downto 0);
-	signal temp_ps2k_dec1: std_logic_vector(3 downto 0);
-	signal temp_ps2k_dec2: std_logic_vector(3 downto 0);
-	signal temp_ps2k_dec3: std_logic_vector(3 downto 0);
-	signal temp_ps2k_dec4: std_logic_vector(3 downto 0);
 begin 
 ---------------clock deling process  
   process(clk,rst_n)    
@@ -110,32 +105,11 @@ begin
 		end if;
   end process;
 -------------------decoded key value loading
-  process(temp_decode,rst_n) 
-  begin
-    if (rst_n = '0') then
-    output_counter <=(others=> '0');
-	 else output_counter <=output_counter +1;
-			case output_counter is
-			when "00" =>temp_ps2k_dec1<=temp_decode;
-			when "01" =>temp_ps2k_dec2<=temp_decode;
-			when "10" =>temp_ps2k_dec3<=temp_decode;
-			when "11" =>temp_ps2k_dec4<=temp_decode;
-			when others =>null;
-			end case;
-	end if;
-	--ps2k_dec <= "1001000111001111";
-  end process;
- -------------------output decoded key value
-  process(clk,rst_n)
-  begin
-    if rst_n = '0'then
-	 ps2k_dec <= "0000000000000000";
-	 elsif clk'event and clk = '1' then
-		if output_counter = "11"then
-		ps2k_dec <= temp_ps2k_dec1 & temp_ps2k_dec2 & temp_ps2k_dec3 & temp_ps2k_dec4;
-		else null;
+  process (temp_decode,rst_n)
+    begin
+	   if rst_n = '0' then 
+		  ps2k_dec <= "0000";
+		else ps2k_dec <= temp_decode;
 		end if;
-	 else null;
-	end if ;
-  end process;
+	end process;
 end decoding;
