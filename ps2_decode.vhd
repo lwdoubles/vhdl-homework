@@ -8,7 +8,7 @@ entity ps2_decode is
 		  rst_n: in std_logic;
 		  ps2k_clk: in std_logic;
 		  ps2k_data: in std_logic;
-		  ps2k_dec: out std_logic_vector(3 downto 0)
+		  ps2k_out: out std_logic_vector(7 downto 0)
 		  );
 end ps2_decode;
 
@@ -19,7 +19,6 @@ architecture decoding of ps2_decode is
 	signal num: std_logic_vector (3 downto 0);  
 	signal ps2_byte_r: std_logic_vector (7 downto 0); 
 	signal break_code_flag: std_logic;
-	signal temp_decode: std_logic_vector (3 downto 0);
 begin 
 ---------------clock deling process  
   process(clk,rst_n)    
@@ -83,33 +82,7 @@ begin
 		if (break_code_flag = '1') then
 			break_code_flag <= '0';
 		else 
-			case ps2_byte_r is
-				when x"45"=>temp_decode <= "0000";--0
-				when x"16"=>temp_decode <= "0001";--1
-				when x"1e"=>temp_decode <= "0010";--2
-				when x"26"=>temp_decode <= "0011";--3
-				when x"25"=>temp_decode <= "0100";--4
-				when x"2e"=>temp_decode <= "0101";--5
-				when x"36"=>temp_decode <= "0110";--6
-				when x"3d"=>temp_decode <= "0111";--7
-				when x"3e"=>temp_decode <= "1000";--8
-				when x"46"=>temp_decode <= "1001";--9
-				when x"1c"=>temp_decode <= "1010";--10(a)
-				when x"32"=>temp_decode <= "1011";--11(b)
-				when x"21"=>temp_decode <= "1100";--12(c)
-				when x"23"=>temp_decode <= "1101";--13(d)
-				when x"24"=>temp_decode <= "1110";--14(e)
-				when x"2b"=>temp_decode <= "1111";--15(f)
-				when others => null;
-			end case;
+			ps2k_out <= ps2_byte_r;
 		end if;
   end process;
--------------------decoded key value loading
-  process (temp_decode,rst_n)
-    begin
-	   if rst_n = '0' then 
-		  ps2k_dec <= "0000";
-		else ps2k_dec <= temp_decode;
-		end if;
-	end process;
 end decoding;
