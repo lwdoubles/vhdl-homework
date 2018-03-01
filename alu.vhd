@@ -4,15 +4,15 @@ use ieee.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 use work.cpu_lib.all;
 entity temp_alu is
-port(a,b:in bit16;
+port(a,b:in bit8;
 	 sel:in alu_type;
-	 c:out bit16;
+	 c:out bit8;
 	 Flag :out std_logic_vector(3 downto 0));
 end temp_alu;
 architecture alu_behav of temp_alu is
 begin
 aluproc:process(a,b,sel)
-variable ALUResult,opR,opS : std_logic_vector(16 downto 0);	 --17 bit to save C bit
+variable ALUResult,opR,opS : std_logic_vector(8 downto 0);	 --17 bit to save C bit
 variable cx,tempC,tempZ,tempV,tempS : std_logic; 	
 begin
 	opR := '0'&a;--load data(later will change it by loading method)
@@ -25,27 +25,27 @@ begin
 		when alu_xor => ALUResult := opR xor opS;
 		when alu_add => ALUResult := opR  +  opS;
 		when alu_sub => ALUResult := opR  -  opS;
-	   when alu_shl => ALUResult(15 downto 1) := opR(14 downto 0);
-							 ALUResult(0) := '0';	cx := opR(15);
-	   when alu_shr => ALUResult(14 downto 0) := opR(15 downto 1);
-							 ALUResult(15) := '0';	cx := opR(0);
+	   when alu_shl => ALUResult(7 downto 1) := opR(6 downto 0);
+							 ALUResult(0) := '0';	cx := opR(8);
+	   when alu_shr => ALUResult(6 downto 0) := opR(7 downto 1);
+							 ALUResult(7) := '0';	cx := opR(0);
 		when others => null;
 	end case;
-	c <= ALUResult(15 downto 0);
+	c <= ALUResult(7 downto 0);
 	----------Flag Setting-------------------
 	case sel is
 		-----Flag C V---------
-		when alu_add|alu_sub    	 	=>   tempC := ALUResult(16);			
+		when alu_add|alu_sub    	 	=>   tempC := ALUResult(8);			
 		when alu_shl|alu_shr     		=>   tempC := cx;	
 		when alu_and|alu_or|alu_xor 	=>   tempC := '0'; tempV:= '0'; --zero C and Z for logic ALU
 		when others					  		=>   null;						
 	end case;	
 		-----Flag Z-----------
-		if ALUResult = "0000000000000000" then	tempZ := '1';
+		if ALUResult = "00000000" then	tempZ := '1';
 		else tempZ := '0';	
 		end if;	 
 		-----Flag S-----------
-		tempS := ALUResult(15);
+		tempS := ALUResult(7);
 		-----Flag load in-----
 		Flag  <= (tempC,tempZ,tempV,tempS);
 		--case e_setFlag is
