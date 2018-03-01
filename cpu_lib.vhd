@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 --package we define 
 package cpu_lib is
-  subtype bit16 is std_logic_vector(15 downto 0);
+  subtype bit8 is std_logic_vector(7 downto 0);
   subtype reg_type is std_logic_vector(2 downto 0);
   
   type RwType is (R, W);
