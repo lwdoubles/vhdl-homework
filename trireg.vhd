@@ -3,15 +3,15 @@ use ieee.std_logic_1164.all;
 use work.cpu_lib.all;
 
 entity trireg is
- port(a : in bit16;
+ port(a : in bit8;
 	  en : in std_logic;
 	  clk : in std_logic;
-	  q : out bit16);
+	  q : out bit8);
 	  
 end trireg;
 
 architecture rtl of trireg is
- signal val : bit16;
+ signal val : bit8;
 begin
  triregdata:process
  begin
