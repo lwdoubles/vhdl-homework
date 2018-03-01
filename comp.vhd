@@ -4,7 +4,7 @@ use ieee.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 use work.cpu_lib.all;
 entity comp is
-port(a,b:bit16;
+port(a,b:bit8;
 	 sel:alu_type;
 	 c_comp:out std_logic
 	 );
