@@ -15,7 +15,7 @@ begin
 	regproc:process
 	begin
 		wait until clk'event and clk = '1';
-		q <= ain after 1 ns;
+		q <= ain ;
 	end process;
 	
 end rtl;
